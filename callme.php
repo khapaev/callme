@@ -142,6 +142,30 @@ $pamiClient->registerEventListener(
                 ],
                 'New incoming call'
             );
+        } elseif (preg_match('/^\d{3,4}$/', $extNum) && preg_match('/^\d{10,}$/', $intNum)) {
+            if ($helper_>getUSER_IDByIntNum($extNum)) {
+                $globalsObj->intNums[$event->getUniqueid()] = $extNum;
+            } elseif ($phoneInner = $helper->userPhoneInnerByPhoneInners($extNum)) {
+                $globalsObj->intNums[$event->getUniqueid()] = $phoneInner;
+            }
+
+            // Регистрируем звонок в битриксе
+            $globalsObj->calls[$event->getUniqueid()] = $helper->runOutputCall($globalsObj->intNums[$event->getUniqueid()], $intNum);
+
+            // Показываем карточку пользователю
+            $helper->showInputCall($globalsObj->intNums[$event->getUniqueid()], $globalsObj->calls[$event->getUniqueid()]);
+
+            $helper->writeToLog(
+                [
+                    'callUniqueid' => $event->getUniqueid(),
+                    'intNum' => $intNum,
+                    'globalsObj->intNums' => $globalsObj->intNums[$event->getUniqueid()],
+                    'extNum' => $extNum,
+                    'CALL_ID' => $globalsObj->calls[$event->getUniqueid()],
+                    'CallChannel' => $CallChannel
+                ],
+                'New outcoming call'
+            );
         }
     }
 );
