@@ -143,7 +143,7 @@ $pamiClient->registerEventListener(
                 'New incoming call'
             );
         } elseif (preg_match('/^\d{3,4}$/', $extNum) && preg_match('/^\d{10,}$/', $intNum)) {
-            if ($helper_>getUSER_IDByIntNum($extNum)) {
+            if ($helper->getUSER_IDByIntNum($extNum)) {
                 $globalsObj->intNums[$event->getUniqueid()] = $extNum;
             } elseif ($phoneInner = $helper->userPhoneInnerByPhoneInners($extNum)) {
                 $globalsObj->intNums[$event->getUniqueid()] = $phoneInner;
