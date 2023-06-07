@@ -118,7 +118,7 @@ $pamiClient->registerEventListener(
         $extNum = $event->getCallerIDNum();
         $CallChannel = $event->getChannel();
 
-        if (preg_match('/^\d{3,4}$/', $intNum) && preg_match('/^\d{10,}$/', $extNum)) {
+        if (preg_match('/^\d{3}$/', $intNum) && preg_match('/^\d{4,}$/', $extNum)) {
             if ($helper->getUSER_IDByIntNum($intNum)) {
                 $globalsObj->intNums[$event->getUniqueid()] = $intNum;
             } elseif ($phoneInner = $helper->userPhoneInnerByPhoneInners($intNum)) {
@@ -142,7 +142,7 @@ $pamiClient->registerEventListener(
                 ],
                 'New incoming call'
             );
-        } elseif (preg_match('/^\d{3,4}$/', $extNum) && preg_match('/^\d{10,}$/', $intNum)) {
+        } elseif (preg_match('/^\d{3}$/', $extNum) && preg_match('/^\d{4,}$/', $intNum)) {
             if ($helper->getUSER_IDByIntNum($extNum)) {
                 $globalsObj->intNums[$event->getUniqueid()] = $extNum;
             } elseif ($phoneInner = $helper->userPhoneInnerByPhoneInners($extNum)) {
